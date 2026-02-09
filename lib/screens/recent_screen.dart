@@ -54,7 +54,7 @@ class RecentScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        context.l10n.openSomePDFFiles,
+                        'Open files will appear here',
                         style: TextStyle(
                           color: Colors.grey,
                         ),

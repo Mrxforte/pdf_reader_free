@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pdf_viewer_app/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:pdf_viewer_app/providers/auth_provider.dart';
 import 'package:pdf_viewer_app/providers/theme_provider.dart';
@@ -6,7 +7,6 @@ import 'package:pdf_viewer_app/utils/helpers.dart';
 import 'package:pdf_viewer_app/screens/auth/login_screen.dart';
 import 'package:pdf_viewer_app/screens/help_support_screen.dart';
 import 'package:pdf_viewer_app/screens/about_screen.dart';
-import 'package:pdf_viewer_app/l10n.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -15,15 +15,16 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     final authProvider = Provider.of<AuthProvider>(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.l10n.settings),
+        title: Text(l10n.settings),
       ),
       body: ListView(
         children: [
           // Profile Section
-          _buildSectionHeader(context.l10n.profile),
+          _buildSectionHeader(l10n.profile),
           ListTile(
             leading: CircleAvatar(
               backgroundImage: authProvider.user?.photoURL != null
@@ -42,10 +43,10 @@ class SettingsScreen extends StatelessWidget {
           const Divider(),
 
           // App Settings
-          _buildSectionHeader(context.l10n.appSettings),
+          _buildSectionHeader(l10n.appSettings),
           SwitchListTile(
-            title: Text(context.l10n.darkMode),
-            subtitle: Text(context.l10n.toggleTheme),
+            title: Text(l10n.darkMode),
+            subtitle: Text(l10n.toggleTheme),
             value: themeProvider.themeMode == ThemeMode.dark,
             onChanged: (value) {
               themeProvider.setTheme(
@@ -55,15 +56,15 @@ class SettingsScreen extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.palette),
-            title: Text(context.l10n.appSettings),
-            subtitle: Text(context.l10n.toggleTheme),
+            title: Text(l10n.appSettings),
+            subtitle: Text(l10n.toggleTheme),
             onTap: () {
               _showThemeColorDialog(context, themeProvider);
             },
           ),
           ListTile(
             leading: const Icon(Icons.language),
-            title: Text(context.l10n.language),
+            title: Text(l10n.language),
             subtitle: const Text('English'),
             onTap: () {
               // Implement language selection
@@ -72,18 +73,18 @@ class SettingsScreen extends StatelessWidget {
           const Divider(),
 
           // PDF Settings
-          _buildSectionHeader(context.l10n.pdfSettings),
+          _buildSectionHeader(l10n.pdfSettings),
           SwitchListTile(
-            title: Text(context.l10n.autoOpenLastFile),
-            subtitle: Text(context.l10n.openLastViewedFile),
+            title: Text(l10n.autoOpenLastFile),
+            subtitle: Text(l10n.autoOpenLastFile),
             value: true,
             onChanged: (value) {
               // Implement auto-open setting
             },
           ),
           SwitchListTile(
-            title: Text(context.l10n.showThumbnails),
-            subtitle: Text(context.l10n.displayThumbnails),
+            title: Text(l10n.showThumbnails),
+            subtitle: Text(l10n.showThumbnails),
             value: true,
             onChanged: (value) {
               // Implement thumbnail setting
@@ -91,8 +92,8 @@ class SettingsScreen extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.folder_open),
-            title: Text(context.l10n.defaultSaveLocation),
-            subtitle: Text(context.l10n.internalStorage),
+            title: Text(l10n.defaultSaveLocation),
+            subtitle: Text(l10n.defaultSaveLocation),
             onTap: () {
               // Implement save location selection
             },
@@ -100,36 +101,37 @@ class SettingsScreen extends StatelessWidget {
           const Divider(),
 
           // Account Settings
-          _buildSectionHeader(context.l10n.account),
+          _buildSectionHeader(l10n.account),
           ListTile(
             leading: const Icon(Icons.security),
-            title: Text(context.l10n.privacySecurity),
+            title: Text(l10n.privacySecurity),
             onTap: () {
               // Implement privacy settings
             },
           ),
           ListTile(
             leading: const Icon(Icons.backup),
-            title: Text(context.l10n.backupSync),
-            subtitle: Text(context.l10n.syncPDFs),
+            title: Text(l10n.backupSync),
+            subtitle: Text(l10n.backupSync),
             onTap: () {
               // Implement backup settings
             },
           ),
           ListTile(
             leading: const Icon(Icons.help),
-            title: Text(context.l10n.helpSupport),
+            title: Text(l10n.helpSupport),
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const HelpSupportScreen()),
+                MaterialPageRoute(
+                    builder: (context) => const HelpSupportScreen()),
               );
             },
           ),
           ListTile(
             leading: const Icon(Icons.info),
-            title: Text(context.l10n.about),
-            subtitle: Text(context.l10n.versionLabel('1.0.0')),
+            title: Text(l10n.about),
+            subtitle: Text(l10n.versionLabel('1.0.0')),
             onTap: () {
               Navigator.push(
                 context,
@@ -140,7 +142,7 @@ class SettingsScreen extends StatelessWidget {
           const Divider(),
 
           // Danger Zone
-          _buildSectionHeader(context.l10n.dangerZone),
+          _buildSectionHeader(l10n.dangerZone),
           ListTile(
             leading: const Icon(Icons.delete_forever, color: Colors.red),
             title: Text(context.l10n.clearAllData,
@@ -158,7 +160,8 @@ class SettingsScreen extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.logout, color: Colors.red),
-            title: Text(context.l10n.signOut, style: const TextStyle(color: Colors.red)),
+            title: Text(context.l10n.signOut,
+                style: const TextStyle(color: Colors.red)),
             onTap: () async {
               final confirmed = await Helpers.showConfirmationDialog(
                 context,
@@ -195,7 +198,8 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  void _showThemeColorDialog(BuildContext context, ThemeProvider themeProvider) {
+  void _showThemeColorDialog(
+      BuildContext context, ThemeProvider themeProvider) {
     final colors = [
       Colors.blue,
       Colors.red,

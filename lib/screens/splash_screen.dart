@@ -65,25 +65,25 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       body: Center(
         child: ScaleTransition(
           scale: _animation,
-          child: const Column(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
+              const Icon(
                 Icons.picture_as_pdf,
                 size: 100,
                 color: Colors.white,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Text(
                 context.l10n.appTitle,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
               ),
-              SizedBox(height: 10),
-              CircularProgressIndicator(
+              const SizedBox(height: 10),
+              const CircularProgressIndicator(
                 color: Colors.white,
               ),
             ],
