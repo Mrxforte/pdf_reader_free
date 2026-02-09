@@ -54,25 +54,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  Future<void> _loginWithGoogle() async {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final success = await authProvider.loginWithGoogle();
-    
-    if (success && mounted) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-      );
-    } else if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(authProvider.error ?? 'Google login failed'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -179,27 +160,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: _isLoading
                             ? const CircularProgressIndicator(color: Colors.white)
                             : const Text('Sign In'),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    const Row(
-                      children: [
-                        Expanded(child: Divider()),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
-                          child: Text('OR'),
-                        ),
-                        Expanded(child: Divider()),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: OutlinedButton.icon(
-                        onPressed: _loginWithGoogle,
-                        icon: const Icon(Icons.g_translate),
-                        label: const Text('Sign in with Google'),
                       ),
                     ),
                     const SizedBox(height: 40),

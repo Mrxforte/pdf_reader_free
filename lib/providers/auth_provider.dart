@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import '../models/user.dart';
 import '../services/database_service.dart';
 
@@ -16,20 +15,9 @@ class AuthProvider with ChangeNotifier {
   String? get error => _error;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  late final GoogleSignIn _googleSignIn;
   final DatabaseService _databaseService = DatabaseService();
 
-  void _initializeGoogleSignIn() {
-    _googleSignIn = GoogleSignIn(
-      scopes: [
-        'email',
-        'profile',
-      ],
-    );
-  }
-
   AuthProvider() {
-    _initializeGoogleSignIn();
     _init();
   }
 
@@ -59,7 +47,7 @@ class AuthProvider with ChangeNotifier {
         await _databaseService.saveUser(_user!);
       }
     } catch (e) {
-      print('Error loading user data: $e');
+      debugPrint('Error loading user data: $e');
     }
   }
 
@@ -115,41 +103,12 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> loginWithGoogle() async {
-    try {
-      _isLoading = true;
-      _error = null;
-      notifyListeners();
-
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      if (googleUser == null) return false;
-
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
-
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-
-      await _auth.signInWithCredential(credential);
-      return true;
-    } catch (e) {
-      _error = e.toString();
-      return false;
-    } finally {
-      _isLoading = false;
-      notifyListeners();
-    }
-  }
-
   Future<void> logout() async {
     try {
       await _auth.signOut();
-      await _googleSignIn.signOut();
       _user = null;
     } catch (e) {
-      print('Error logging out: $e');
+      debugPrint('Error logging out: $e');
     }
     notifyListeners();
   }

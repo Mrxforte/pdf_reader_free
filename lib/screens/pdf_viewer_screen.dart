@@ -17,6 +17,7 @@ class _PDFViewerScreenState extends State<PDFViewerScreen> {
   final PdfViewerController _pdfViewerController = PdfViewerController();
   double _zoomLevel = 1.0;
   bool _isLoading = true;
+  int _currentPage = 1;
 
   @override
   void initState() {
@@ -98,6 +99,11 @@ class _PDFViewerScreenState extends State<PDFViewerScreen> {
               canShowScrollHead: true,
               canShowScrollStatus: true,
               interactionMode: PdfInteractionMode.pan,
+              onPageChanged: (PdfPageChangedDetails details) {
+                setState(() {
+                  _currentPage = details.newPageNumber;
+                });
+              },
             ),
           Positioned(
             bottom: 20,
@@ -115,17 +121,12 @@ class _PDFViewerScreenState extends State<PDFViewerScreen> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.7),
+                color: Colors.black.withValues(alpha: 0.7),
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: StreamBuilder<int?>(
-                stream: _pdfViewerController.pageChangedStream,
-                builder: (context, snapshot) {
-                  return Text(
-                    'Page ${snapshot.data ?? 1}',
-                    style: const TextStyle(color: Colors.white),
-                  );
-                },
+              child: Text(
+                'Page $_currentPage',
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           ),

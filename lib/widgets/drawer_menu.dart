@@ -99,6 +99,7 @@ class DrawerMenu extends StatelessWidget {
             title: 'Sign Out',
             onTap: () async {
               await authProvider.logout();
+              if (!context.mounted) return;
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => const LoginScreen()),

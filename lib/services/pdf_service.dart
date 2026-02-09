@@ -3,7 +3,6 @@ import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 class PdfService {
@@ -27,7 +26,11 @@ class PdfService {
 
   // Share PDF file
   Future<void> sharePdf(String filePath) async {
-    await Share.shareXFiles([XFile(filePath)]);
+    await SharePlus.instance.share(
+      ShareParams(
+        files: [XFile(filePath)],
+      ),
+    );
   }
 
   // Check if file exists

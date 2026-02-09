@@ -158,6 +158,7 @@ class SettingsScreen extends StatelessWidget {
               );
               if (confirmed && context.mounted) {
                 await authProvider.logout();
+                if (!context.mounted) return;
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => const LoginScreen()),

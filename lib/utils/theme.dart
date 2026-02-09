@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   static ThemeData lightTheme = ThemeData(
+    useMaterial3: true,
     brightness: Brightness.light,
     primaryColor: Colors.blue,
-    primarySwatch: Colors.blue,
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: Colors.blue,
+      brightness: Brightness.light,
+    ),
     scaffoldBackgroundColor: Colors.grey[100],
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.blue,
@@ -21,7 +25,7 @@ class AppTheme {
       backgroundColor: Colors.white,
       elevation: 16,
     ),
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: Colors.white,
       elevation: 2,
       shape: RoundedRectangleBorder(
@@ -37,21 +41,16 @@ class AppTheme {
       selectedItemColor: Colors.blue,
       unselectedItemColor: Colors.grey[600],
     ),
-    textTheme: const TextTheme(
-      displayLarge: TextStyle(color: Colors.black87),
-      displayMedium: TextStyle(color: Colors.black87),
-      displaySmall: TextStyle(color: Colors.black87),
-      bodyLarge: TextStyle(color: Colors.black87),
-      bodyMedium: TextStyle(color: Colors.black87),
-      bodySmall: TextStyle(color: Colors.black87),
-    ),
-    iconTheme: const IconThemeData(color: Colors.black54),
   );
 
   static ThemeData darkTheme = ThemeData(
+    useMaterial3: true,
     brightness: Brightness.dark,
     primaryColor: Colors.blue,
-    primarySwatch: Colors.blue,
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: Colors.blue,
+      brightness: Brightness.dark,
+    ),
     scaffoldBackgroundColor: Colors.grey[900],
     appBarTheme: AppBarTheme(
       backgroundColor: Colors.grey[850],
@@ -68,7 +67,7 @@ class AppTheme {
       backgroundColor: Colors.grey[850],
       elevation: 16,
     ),
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: Colors.grey[800],
       elevation: 2,
       shape: RoundedRectangleBorder(
@@ -84,14 +83,5 @@ class AppTheme {
       selectedItemColor: Colors.blue,
       unselectedItemColor: Colors.grey[400],
     ),
-    textTheme: const TextTheme(
-      displayLarge: TextStyle(color: Colors.white),
-      displayMedium: TextStyle(color: Colors.white),
-      displaySmall: TextStyle(color: Colors.white),
-      bodyLarge: TextStyle(color: Colors.white),
-      bodyMedium: TextStyle(color: Colors.white),
-      bodySmall: TextStyle(color: Colors.white),
-    ),
-    iconTheme: const IconThemeData(color: Colors.white70),
   );
 }

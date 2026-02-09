@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:pdf_viewer_app/models/pdf_file.dart';
@@ -117,7 +117,7 @@ class PDFProvider with ChangeNotifier {
             await fileToDelete.delete();
           }
         } catch (e) {
-          print('Error deleting local file: $e');
+          debugPrint('Error deleting local file: $e');
         }
 
         _files.removeAt(index);
@@ -136,8 +136,12 @@ class PDFProvider with ChangeNotifier {
       final filePath = File(file.path);
 
       if (await filePath.exists()) {
-        await Share.shareXFiles([XFile(filePath.path)],
-            text: 'Check out this PDF');
+        await SharePlus.instance.share(
+          ShareParams(
+            files: [XFile(filePath.path)],
+            text: 'Check out this PDF',
+          ),
+        );
       }
     } catch (e) {
       _error = e.toString();

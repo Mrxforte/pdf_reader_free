@@ -41,12 +41,12 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     if (authProvider.firebaseUser != null) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        MaterialPageRoute(builder: (BuildContext context) => const HomeScreen()),
       );
     } else {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
+        MaterialPageRoute(builder: (BuildContext context) => const LoginScreen()),
       );
     }
   }

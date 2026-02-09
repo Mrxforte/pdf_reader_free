@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pdf_viewer_app/providers/pdf_provider.dart';
@@ -76,8 +75,8 @@ class HomeContent extends StatelessWidget {
                   Text(
                     'You have ${pdfProvider.files.length} PDF files',
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Colors.grey,
-                    ),
+                          color: Colors.grey,
+                        ),
                   ),
                 ],
               ),

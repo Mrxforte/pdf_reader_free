@@ -18,7 +18,7 @@
 ## ✨ Features
 
 - 📱 **Cross-Platform**: Works seamlessly on Android and iOS
-- 🔐 **Authentication**: Secure login with email/password and Google Sign-In
+- 🔐 **Authentication**: Secure login with email/password
 - ☁️ **Cloud Storage**: Upload and sync PDFs across devices using Firebase Storage
 - ⭐ **Favorites**: Mark important PDFs for quick access
 - 🕒 **Recent Files**: Automatically track recently viewed documents
@@ -112,7 +112,6 @@ flutterfire configure
 
 In Firebase Console, enable:
 - ✅ Email/Password Authentication
-- ✅ Google Sign-In Authentication
 - ✅ Cloud Firestore
 - ✅ Firebase Storage
 
