@@ -60,13 +60,28 @@ git clone https://github.com/yourusername/pdf_viewer_free.git
 cd pdf_viewer_free
 ```
 
-### 2. Install Dependencies
+### 2. Download Assets
+
+#### Roboto Fonts
+1. Download Roboto fonts from [Google Fonts](https://fonts.google.com/specimen/Roboto)
+2. Extract and place the following files in `assets/fonts/`:
+   - `Roboto-Regular.ttf`
+   - `Roboto-Medium.ttf`
+   - `Roboto-Bold.ttf`
+   - `Roboto-Light.ttf`
+
+#### Logo
+1. Create or download a logo image (recommended size: 512x512px)
+2. Place it as `assets/images/logo.png`
+3. Optionally add a splash screen image as `assets/images/splash.png`
+
+### 3. Install Dependencies
 
 ```bash
 flutter pub get
 ```
 
-### 3. Firebase Setup
+### 4. Firebase Setup
 
 #### a. Create a Firebase Project
 1. Go to [Firebase Console](https://console.firebase.google.com/)
@@ -93,7 +108,7 @@ dart pub global activate flutterfire_cli
 flutterfire configure
 ```
 
-### 4. Enable Firebase Services
+### 5. Enable Firebase Services
 
 In Firebase Console, enable:
 - ✅ Email/Password Authentication
@@ -101,7 +116,7 @@ In Firebase Console, enable:
 - ✅ Cloud Firestore
 - ✅ Firebase Storage
 
-### 5. Run the App
+### 6. Run the App
 
 ```bash
 # Run on connected device
