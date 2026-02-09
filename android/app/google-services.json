@@ -1,0 +1,124 @@
+{
+  "project_info": {
+    "project_number": "210384624605",
+    "project_id": "screenify-c2d63",
+    "storage_bucket": "screenify-c2d63.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210384624605:android:a93ebe002421fcb88ef434",
+        "android_client_info": {
+          "package_name": "com.example.ag_stroy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFu0T9Gud-Bz4UT2fh7-QSZsG61J6WHlU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210384624605:android:113cc7dac5a483c88ef434",
+        "android_client_info": {
+          "package_name": "com.example.chat_app_mvvm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFu0T9Gud-Bz4UT2fh7-QSZsG61J6WHlU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210384624605:android:9ca7cd3c0ab96e228ef434",
+        "android_client_info": {
+          "package_name": "com.example.crm_pro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFu0T9Gud-Bz4UT2fh7-QSZsG61J6WHlU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210384624605:android:d2b28d05bae461d78ef434",
+        "android_client_info": {
+          "package_name": "com.example.inventory"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFu0T9Gud-Bz4UT2fh7-QSZsG61J6WHlU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210384624605:android:d8505b71fcdebefa8ef434",
+        "android_client_info": {
+          "package_name": "com.example.pdf_reader_free"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFu0T9Gud-Bz4UT2fh7-QSZsG61J6WHlU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210384624605:android:a592f3d038ea342d8ef434",
+        "android_client_info": {
+          "package_name": "com.example.screenify"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFu0T9Gud-Bz4UT2fh7-QSZsG61J6WHlU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

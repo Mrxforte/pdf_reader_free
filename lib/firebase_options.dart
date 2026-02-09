@@ -29,45 +29,49 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'YOUR_WEB_API_KEY',
-    appId: 'YOUR_WEB_APP_ID',
-    messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
-    projectId: 'YOUR_PROJECT_ID',
-    authDomain: 'YOUR_AUTH_DOMAIN',
-    storageBucket: 'YOUR_STORAGE_BUCKET',
+    apiKey: 'AIzaSyAehTay8PazMXzuUepOO0XI9zWzCxRjaqo',
+    appId: '1:210384624605:web:34c3fc77c0046e228ef434',
+    messagingSenderId: '210384624605',
+    projectId: 'screenify-c2d63',
+    authDomain: 'screenify-c2d63.firebaseapp.com',
+    storageBucket: 'screenify-c2d63.firebasestorage.app',
+    measurementId: 'G-VV8L495K7X',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'YOUR_ANDROID_API_KEY',
-    appId: 'YOUR_ANDROID_APP_ID',
-    messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
-    projectId: 'YOUR_PROJECT_ID',
-    storageBucket: 'YOUR_STORAGE_BUCKET',
+    apiKey: 'AIzaSyCFu0T9Gud-Bz4UT2fh7-QSZsG61J6WHlU',
+    appId: '1:210384624605:android:d8505b71fcdebefa8ef434',
+    messagingSenderId: '210384624605',
+    projectId: 'screenify-c2d63',
+    storageBucket: 'screenify-c2d63.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'YOUR_IOS_API_KEY',
-    appId: 'YOUR_IOS_APP_ID',
-    messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
-    projectId: 'YOUR_PROJECT_ID',
-    storageBucket: 'YOUR_STORAGE_BUCKET',
-    iosBundleId: 'YOUR_IOS_BUNDLE_ID',
+    apiKey: 'AIzaSyBZwReAlZgMYgQIRaXvjk0ODLIeMOPi76Q',
+    appId: '1:210384624605:ios:ee5394dd39ea765a8ef434',
+    messagingSenderId: '210384624605',
+    projectId: 'screenify-c2d63',
+    storageBucket: 'screenify-c2d63.firebasestorage.app',
+    iosBundleId: 'com.example.pdfReaderFree',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'YOUR_MACOS_API_KEY',
-    appId: 'YOUR_MACOS_APP_ID',
-    messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
-    projectId: 'YOUR_PROJECT_ID',
-    storageBucket: 'YOUR_STORAGE_BUCKET',
-    iosBundleId: 'YOUR_MACOS_BUNDLE_ID',
+    apiKey: 'AIzaSyBZwReAlZgMYgQIRaXvjk0ODLIeMOPi76Q',
+    appId: '1:210384624605:ios:ee5394dd39ea765a8ef434',
+    messagingSenderId: '210384624605',
+    projectId: 'screenify-c2d63',
+    storageBucket: 'screenify-c2d63.firebasestorage.app',
+    iosBundleId: 'com.example.pdfReaderFree',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'YOUR_WINDOWS_API_KEY',
-    appId: 'YOUR_WINDOWS_APP_ID',
-    messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
-    projectId: 'YOUR_PROJECT_ID',
-    storageBucket: 'YOUR_STORAGE_BUCKET',
+    apiKey: 'AIzaSyAO7iTSZW8Xnc0JOr4oJVFUDd8OYdAJNn4',
+    appId: '1:210384624605:web:c972bf8532fd62d58ef434',
+    messagingSenderId: '210384624605',
+    projectId: 'screenify-c2d63',
+    authDomain: 'screenify-c2d63.firebaseapp.com',
+    storageBucket: 'screenify-c2d63.firebasestorage.app',
+    measurementId: 'G-H5T25MHHVY',
   );
+
 }
