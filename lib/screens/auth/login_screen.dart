@@ -4,6 +4,7 @@ import 'package:pdf_viewer_app/providers/auth_provider.dart';
 import 'package:pdf_viewer_app/screens/auth/register_screen.dart';
 import 'package:pdf_viewer_app/screens/auth/forgot_password_screen.dart';
 import 'package:pdf_viewer_app/screens/home_screen.dart';
+import 'package:pdf_viewer_app/utils/helpers.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -70,14 +71,14 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 20),
               Text(
-                'Welcome Back',
+                context.l10n.welcomeBack,
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 10),
               Text(
-                'Sign in to access your PDF files',
+                context.l10n.signInToAccess,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Colors.grey,
                 ),
@@ -89,8 +90,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     TextFormField(
                       controller: _emailController,
-                      decoration: const InputDecoration(
-                        labelText: 'Email',
+                      decoration: InputDecoration(
+                        labelText: context.l10n.email,
                         prefixIcon: Icon(Icons.email),
                         border: OutlineInputBorder(),
                       ),
@@ -109,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextFormField(
                       controller: _passwordController,
                       decoration: InputDecoration(
-                        labelText: 'Password',
+                        labelText: context.l10n.password,
                         prefixIcon: const Icon(Icons.lock),
                         suffixIcon: IconButton(
                           icon: Icon(
@@ -148,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           );
                         },
-                        child: const Text('Forgot Password?'),
+                        child: Text(context.l10n.forgotPassword),
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -159,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: _isLoading ? null : _login,
                         child: _isLoading
                             ? const CircularProgressIndicator(color: Colors.white)
-                            : const Text('Sign In'),
+                            : Text(context.l10n.signIn),
                       ),
                     ),
                     const SizedBox(height: 40),
@@ -176,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             );
                           },
-                          child: const Text('Sign Up'),
+                          child: Text(context.l10n.signUp),
                         ),
                       ],
                     ),

@@ -98,4 +98,6 @@ class PdfService {
     await file.writeAsBytes(bytes);
     return file;
   }
+
+  // PDF service is locale-agnostic.
 }

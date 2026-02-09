@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:pdf_viewer_app/providers/pdf_provider.dart';
 import 'package:pdf_viewer_app/screens/pdf_viewer_screen.dart';
 import 'package:pdf_viewer_app/widgets/file_list_item.dart';
+import 'package:pdf_viewer_app/utils/helpers.dart';
 
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({super.key});
@@ -14,7 +15,7 @@ class FavoritesScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Favorite Files'),
+        title: Text(context.l10n.favoriteFiles),
       ),
       body: pdfProvider.isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -29,8 +30,8 @@ class FavoritesScreen extends StatelessWidget {
                         color: Colors.grey[400],
                       ),
                       const SizedBox(height: 20),
-                      const Text(
-                        'No favorite files yet',
+                      Text(
+                        context.l10n.noFavoriteFiles,
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.grey,

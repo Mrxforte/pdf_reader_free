@@ -5,6 +5,7 @@ import 'package:pdf_viewer_app/providers/auth_provider.dart';
 import 'package:pdf_viewer_app/screens/pdf_viewer_screen.dart';
 import 'package:pdf_viewer_app/widgets/drawer_menu.dart';
 import 'package:pdf_viewer_app/widgets/file_list_item.dart';
+import 'package:pdf_viewer_app/utils/helpers.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
       key: _scaffoldKey,
       drawer: DrawerMenu(scaffoldKey: _scaffoldKey),
       appBar: AppBar(
-        title: const Text('PDF Viewer Pro'),
+        title: Text(context.l10n.appTitle),
         leading: IconButton(
           icon: const Icon(Icons.menu),
           onPressed: () => _scaffoldKey.currentState?.openDrawer(),
@@ -68,12 +69,12 @@ class HomeContent extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Welcome, ${authProvider.user?.displayName ?? 'User'}!',
+                    context.l10n.welcomeUser(authProvider.user?.displayName ?? 'User'),
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'You have ${pdfProvider.files.length} PDF files',
+                    context.l10n.fileCount(pdfProvider.files.length),
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Colors.grey,
                         ),
@@ -122,23 +123,23 @@ class HomeContent extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Recent Files',
+                context.l10n.recentFiles,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               TextButton(
                 onPressed: () {
                   // Navigate to recent screen
                 },
-                child: const Text('View All'),
+                child: Text(context.l10n.viewAll),
               ),
             ],
           ),
           if (pdfProvider.recent.isEmpty)
-            const Padding(
-              padding: EdgeInsets.all(20),
+            Padding(
+              padding: const EdgeInsets.all(20),
               child: Center(
                 child: Text(
-                  'No recent files',
+                  context.l10n.noRecentFiles,
                   style: TextStyle(color: Colors.grey),
                 ),
               ),
@@ -171,23 +172,23 @@ class HomeContent extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Favorite Files',
+                context.l10n.favoriteFiles,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               TextButton(
                 onPressed: () {
                   // Navigate to favorites screen
                 },
-                child: const Text('View All'),
+                child: Text(context.l10n.viewAll),
               ),
             ],
           ),
           if (pdfProvider.favorites.isEmpty)
-            const Padding(
-              padding: EdgeInsets.all(20),
+            Padding(
+              padding: const EdgeInsets.all(20),
               child: Center(
                 child: Text(
-                  'No favorite files',
+                  context.l10n.noFavoriteFiles,
                   style: TextStyle(color: Colors.grey),
                 ),
               ),

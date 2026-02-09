@@ -66,9 +66,7 @@ cd pdf_viewer_free
 1. Download Roboto fonts from [Google Fonts](https://fonts.google.com/specimen/Roboto)
 2. Extract and place the following files in `assets/fonts/`:
    - `Roboto-Regular.ttf`
-   - `Roboto-Medium.ttf`
    - `Roboto-Bold.ttf`
-   - `Roboto-Light.ttf`
 
 #### Logo
 1. Create or download a logo image (recommended size: 512x512px)
@@ -296,3 +294,13 @@ For support, email support@example.com or open an issue in the repository.
 ⭐ Star this repo if you find it helpful!
 
 </div>
+
+## 🌍 Localization
+
+The app supports system-based localization for:
+- Uzbek (uz)
+- Russian (ru)
+- Kazakh (kk)
+- Belarusian (be)
+
+Flutter automatically uses the device language when it matches one of the supported locales.

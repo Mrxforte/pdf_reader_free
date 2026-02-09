@@ -34,4 +34,6 @@ class StorageService {
       throw Exception('Failed to list files: $e');
     }
   }
+
+  // Storage service is locale-agnostic.
 }

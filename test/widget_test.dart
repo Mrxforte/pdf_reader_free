@@ -12,8 +12,8 @@ import 'package:pdf_viewer_app/main.dart';
 void main() {
   testWidgets('App launches successfully', (WidgetTester tester) async {
     await tester.pumpWidget(const MyApp());
+    await tester.pumpAndSettle();
 
-    // Verify the app starts
-    expect(find.byType(MaterialApp), findsOneWidget);
+    expect(find.text('PDF Viewer Pro'), findsWidgets);
   });
 }

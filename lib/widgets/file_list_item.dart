@@ -84,7 +84,7 @@ class FileListItem extends StatelessWidget {
                 Text(Helpers.formatFileSize(file.size)),
                 if (showDate && date != null)
                   Text(
-                    'Opened: ${Helpers.formatDateShort(date!)}',
+                    '${context.l10n.openedLabel}: ${Helpers.formatDateShort(date!)}',
                     style: const TextStyle(fontSize: 12),
                   ),
               ],

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pdf_viewer_app/providers/auth_provider.dart';
 import 'package:pdf_viewer_app/screens/auth/login_screen.dart';
+import 'package:pdf_viewer_app/screens/help_support_screen.dart';
+import 'package:pdf_viewer_app/screens/about_screen.dart';
+import 'package:pdf_viewer_app/utils/helpers.dart';
 
 class DrawerMenu extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -38,7 +41,7 @@ class DrawerMenu extends StatelessWidget {
           _buildDrawerItem(
             context,
             icon: Icons.home,
-            title: 'Home',
+            title: context.l10n.home,
             onTap: () {
               Navigator.pop(context);
             },
@@ -46,7 +49,7 @@ class DrawerMenu extends StatelessWidget {
           _buildDrawerItem(
             context,
             icon: Icons.folder,
-            title: 'All Files',
+            title: context.l10n.allFiles,
             onTap: () {
               Navigator.pop(context);
             },
@@ -54,7 +57,7 @@ class DrawerMenu extends StatelessWidget {
           _buildDrawerItem(
             context,
             icon: Icons.star,
-            title: 'Favorites',
+            title: context.l10n.favorites,
             onTap: () {
               Navigator.pop(context);
             },
@@ -62,7 +65,7 @@ class DrawerMenu extends StatelessWidget {
           _buildDrawerItem(
             context,
             icon: Icons.history,
-            title: 'Recent',
+            title: context.l10n.recent,
             onTap: () {
               Navigator.pop(context);
             },
@@ -71,7 +74,7 @@ class DrawerMenu extends StatelessWidget {
           _buildDrawerItem(
             context,
             icon: Icons.settings,
-            title: 'Settings',
+            title: context.l10n.settings,
             onTap: () {
               Navigator.pop(context);
             },
@@ -79,24 +82,32 @@ class DrawerMenu extends StatelessWidget {
           _buildDrawerItem(
             context,
             icon: Icons.help,
-            title: 'Help & Support',
+            title: context.l10n.helpSupport,
             onTap: () {
-              // Navigate to help screen
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HelpSupportScreen()),
+              );
             },
           ),
           _buildDrawerItem(
             context,
             icon: Icons.info,
-            title: 'About',
+            title: context.l10n.about,
             onTap: () {
-              // Navigate to about screen
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AboutScreen()),
+              );
             },
           ),
           const Divider(),
           _buildDrawerItem(
             context,
             icon: Icons.logout,
-            title: 'Sign Out',
+            title: context.l10n.signOut,
             onTap: () async {
               await authProvider.logout();
               if (!context.mounted) return;

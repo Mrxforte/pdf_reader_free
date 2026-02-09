@@ -74,4 +74,5 @@ class DefaultFirebaseOptions {
     measurementId: 'G-H5T25MHHVY',
   );
 
+  // Locale selection is handled by MaterialApp via supportedLocales.
 }

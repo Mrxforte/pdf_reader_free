@@ -52,4 +52,6 @@ class DatabaseService {
         .get();
     return snapshot.docs.map((doc) => PDFFile.fromMap(doc.data())).toList();
   }
+
+  // Data service is locale-agnostic.
 }

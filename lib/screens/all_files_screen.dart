@@ -45,7 +45,7 @@ class _AllFilesScreenState extends State<AllFilesScreen> {
         title: TextField(
           controller: _searchController,
           decoration: InputDecoration(
-            hintText: 'Search PDF files...',
+            hintText: context.l10n.searchPdfFiles,
             border: InputBorder.none,
             suffixIcon: _searchQuery.isNotEmpty
                 ? IconButton(
@@ -71,16 +71,16 @@ class _AllFilesScreenState extends State<AllFilesScreen> {
                         color: Colors.grey[400],
                       ),
                       const SizedBox(height: 20),
-                      const Text(
-                        'No PDF files yet',
+                      Text(
+                        context.l10n.noPdfFilesYet,
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.grey,
                         ),
                       ),
                       const SizedBox(height: 10),
-                      const Text(
-                        'Tap the + button to add your first PDF',
+                      Text(
+                        context.l10n.tapPlusToAddFirst,
                         style: TextStyle(
                           color: Colors.grey,
                         ),

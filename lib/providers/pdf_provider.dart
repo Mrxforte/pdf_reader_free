@@ -175,4 +175,6 @@ class PDFProvider with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  // PDF provider is locale-agnostic.
 }

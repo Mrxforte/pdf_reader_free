@@ -15,7 +15,7 @@ class RecentScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Recent Files'),
+        title: Text(context.l10n.recentFiles),
         actions: [
           IconButton(
             icon: const Icon(Icons.delete_sweep),
@@ -45,16 +45,16 @@ class RecentScreen extends StatelessWidget {
                         color: Colors.grey[400],
                       ),
                       const SizedBox(height: 20),
-                      const Text(
-                        'No recent files',
+                      Text(
+                        context.l10n.noRecentFiles,
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.grey,
                         ),
                       ),
                       const SizedBox(height: 10),
-                      const Text(
-                        'Open some PDF files to see them here',
+                      Text(
+                        context.l10n.openSomePDFFiles,
                         style: TextStyle(
                           color: Colors.grey,
                         ),

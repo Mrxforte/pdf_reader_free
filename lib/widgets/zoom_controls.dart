@@ -62,3 +62,5 @@ class ZoomControls extends StatelessWidget {
     );
   }
 }
+
+// Zoom controls are locale-agnostic.

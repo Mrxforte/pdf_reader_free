@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pdf_viewer_app/providers/auth_provider.dart';
+import 'package:pdf_viewer_app/utils/helpers.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -48,7 +49,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Reset Password'),
+        title: Text(context.l10n.resetPassword),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -63,7 +64,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               ),
               const SizedBox(height: 20),
               Text(
-                'Forgot Password?',
+                context.l10n.resetPassword,
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -71,8 +72,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               const SizedBox(height: 10),
               Text(
                 _emailSent
-                    ? 'Check your email for reset instructions'
-                    : 'Enter your email to receive reset instructions',
+                    ? context.l10n.resetInstructions
+                    : context.l10n.resetInstructions,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Colors.grey,
@@ -86,8 +87,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     children: [
                       TextFormField(
                         controller: _emailController,
-                        decoration: const InputDecoration(
-                          labelText: 'Email',
+                        decoration: InputDecoration(
+                          labelText: context.l10n.email,
                           prefixIcon: Icon(Icons.email),
                           border: OutlineInputBorder(),
                         ),
@@ -110,7 +111,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           onPressed: _isLoading ? null : _resetPassword,
                           child: _isLoading
                               ? const CircularProgressIndicator(color: Colors.white)
-                              : const Text('Send Reset Email'),
+                              : Text(context.l10n.sendResetEmail),
                         ),
                       ),
                     ],
@@ -144,7 +145,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: const Text('Back to Login'),
+                    child: Text(context.l10n.backToLogin),
                   ),
                 ),
               ],
@@ -153,7 +154,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text('Back to Login'),
+                child: Text(context.l10n.backToLogin),
               ),
             ],
           ),

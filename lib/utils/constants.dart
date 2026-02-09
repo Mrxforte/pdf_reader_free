@@ -5,6 +5,13 @@ class AppConstants {
   static const String firebaseCollectionFiles = 'files';
   static const int maxFileSize = 50 * 1024 * 1024; // 50MB
   static const List<String> supportedFormats = ['pdf'];
+  static const List<String> supportedLocaleCodes = [
+    'en',
+    'ru',
+    'uz',
+    'kk',
+    'be'
+  ];
 
   // Routes
   static const String loginRoute = '/login';

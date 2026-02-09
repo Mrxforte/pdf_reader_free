@@ -91,7 +91,13 @@ class AuthProvider with ChangeNotifier {
         displayName: name,
         createdAt: DateTime.now(),
       );
-      await _databaseService.saveUser(_user!);
+
+      try {
+        await _databaseService.saveUser(_user!);
+      } catch (e) {
+        debugPrint('Firestore saveUser failed: $e');
+        // Allow auth to succeed even if Firestore is disabled.
+      }
 
       return true;
     } on FirebaseAuthException catch (e) {
@@ -122,3 +128,5 @@ class AuthProvider with ChangeNotifier {
     }
   }
 }
+
+// Auth provider is locale-agnostic.

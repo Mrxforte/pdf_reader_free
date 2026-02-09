@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Helpers {
   static String formatFileSize(int bytes) {
@@ -54,4 +55,8 @@ class Helpers {
     );
     return result ?? false;
   }
+}
+
+extension L10nX on BuildContext {
+  AppLocalizations get l10n => AppLocalizations.of(this)!;
 }

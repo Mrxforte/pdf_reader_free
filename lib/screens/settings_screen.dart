@@ -4,6 +4,9 @@ import 'package:pdf_viewer_app/providers/auth_provider.dart';
 import 'package:pdf_viewer_app/providers/theme_provider.dart';
 import 'package:pdf_viewer_app/utils/helpers.dart';
 import 'package:pdf_viewer_app/screens/auth/login_screen.dart';
+import 'package:pdf_viewer_app/screens/help_support_screen.dart';
+import 'package:pdf_viewer_app/screens/about_screen.dart';
+import 'package:pdf_viewer_app/l10n.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -15,12 +18,12 @@ class SettingsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: Text(context.l10n.settings),
       ),
       body: ListView(
         children: [
           // Profile Section
-          _buildSectionHeader('Profile'),
+          _buildSectionHeader(context.l10n.profile),
           ListTile(
             leading: CircleAvatar(
               backgroundImage: authProvider.user?.photoURL != null
@@ -39,10 +42,10 @@ class SettingsScreen extends StatelessWidget {
           const Divider(),
 
           // App Settings
-          _buildSectionHeader('App Settings'),
+          _buildSectionHeader(context.l10n.appSettings),
           SwitchListTile(
-            title: const Text('Dark Mode'),
-            subtitle: const Text('Toggle dark/light theme'),
+            title: Text(context.l10n.darkMode),
+            subtitle: Text(context.l10n.toggleTheme),
             value: themeProvider.themeMode == ThemeMode.dark,
             onChanged: (value) {
               themeProvider.setTheme(
@@ -52,15 +55,15 @@ class SettingsScreen extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.palette),
-            title: const Text('Theme Color'),
-            subtitle: const Text('Choose app color theme'),
+            title: Text(context.l10n.appSettings),
+            subtitle: Text(context.l10n.toggleTheme),
             onTap: () {
               _showThemeColorDialog(context, themeProvider);
             },
           ),
           ListTile(
             leading: const Icon(Icons.language),
-            title: const Text('Language'),
+            title: Text(context.l10n.language),
             subtitle: const Text('English'),
             onTap: () {
               // Implement language selection
@@ -69,18 +72,18 @@ class SettingsScreen extends StatelessWidget {
           const Divider(),
 
           // PDF Settings
-          _buildSectionHeader('PDF Settings'),
+          _buildSectionHeader(context.l10n.pdfSettings),
           SwitchListTile(
-            title: const Text('Auto-open last file'),
-            subtitle: const Text('Open last viewed file on app start'),
+            title: Text(context.l10n.autoOpenLastFile),
+            subtitle: Text(context.l10n.openLastViewedFile),
             value: true,
             onChanged: (value) {
               // Implement auto-open setting
             },
           ),
           SwitchListTile(
-            title: const Text('Show thumbnails'),
-            subtitle: const Text('Display PDF thumbnails in file list'),
+            title: Text(context.l10n.showThumbnails),
+            subtitle: Text(context.l10n.displayThumbnails),
             value: true,
             onChanged: (value) {
               // Implement thumbnail setting
@@ -88,8 +91,8 @@ class SettingsScreen extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.folder_open),
-            title: const Text('Default save location'),
-            subtitle: const Text('Internal storage/PDF Viewer'),
+            title: Text(context.l10n.defaultSaveLocation),
+            subtitle: Text(context.l10n.internalStorage),
             onTap: () {
               // Implement save location selection
             },
@@ -97,45 +100,51 @@ class SettingsScreen extends StatelessWidget {
           const Divider(),
 
           // Account Settings
-          _buildSectionHeader('Account'),
+          _buildSectionHeader(context.l10n.account),
           ListTile(
             leading: const Icon(Icons.security),
-            title: const Text('Privacy & Security'),
+            title: Text(context.l10n.privacySecurity),
             onTap: () {
               // Implement privacy settings
             },
           ),
           ListTile(
             leading: const Icon(Icons.backup),
-            title: const Text('Backup & Sync'),
-            subtitle: const Text('Sync PDFs to cloud'),
+            title: Text(context.l10n.backupSync),
+            subtitle: Text(context.l10n.syncPDFs),
             onTap: () {
               // Implement backup settings
             },
           ),
           ListTile(
             leading: const Icon(Icons.help),
-            title: const Text('Help & Support'),
+            title: Text(context.l10n.helpSupport),
             onTap: () {
-              // Implement help screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HelpSupportScreen()),
+              );
             },
           ),
           ListTile(
             leading: const Icon(Icons.info),
-            title: const Text('About'),
-            subtitle: const Text('Version 1.0.0'),
+            title: Text(context.l10n.about),
+            subtitle: Text(context.l10n.versionLabel('1.0.0')),
             onTap: () {
-              _showAboutDialog(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AboutScreen()),
+              );
             },
           ),
           const Divider(),
 
           // Danger Zone
-          _buildSectionHeader('Danger Zone'),
+          _buildSectionHeader(context.l10n.dangerZone),
           ListTile(
             leading: const Icon(Icons.delete_forever, color: Colors.red),
-            title: const Text('Clear All Data',
-                style: TextStyle(color: Colors.red)),
+            title: Text(context.l10n.clearAllData,
+                style: const TextStyle(color: Colors.red)),
             onTap: () async {
               final confirmed = await Helpers.showConfirmationDialog(
                 context,
@@ -149,7 +158,7 @@ class SettingsScreen extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.logout, color: Colors.red),
-            title: const Text('Sign Out', style: TextStyle(color: Colors.red)),
+            title: Text(context.l10n.signOut, style: const TextStyle(color: Colors.red)),
             onTap: () async {
               final confirmed = await Helpers.showConfirmationDialog(
                 context,
@@ -226,32 +235,6 @@ class SettingsScreen extends StatelessWidget {
             },
           ),
         ),
-      ),
-    );
-  }
-
-  void _showAboutDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('About PDF Viewer Pro'),
-        content: const Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Version: 1.0.0'),
-            SizedBox(height: 8),
-            Text('A powerful PDF viewer with cloud sync, dark mode, and advanced features.'),
-            SizedBox(height: 16),
-            Text('© 2024 PDF Viewer Pro. All rights reserved.'),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('OK'),
-          ),
-        ],
       ),
     );
   }

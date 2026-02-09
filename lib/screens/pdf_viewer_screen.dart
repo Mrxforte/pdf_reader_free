@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:pdf_viewer_app/models/pdf_file.dart';
 import 'package:pdf_viewer_app/widgets/zoom_controls.dart';
+import 'package:pdf_viewer_app/utils/helpers.dart';
 
 class PDFViewerScreen extends StatefulWidget {
   final PDFFile file;
@@ -125,7 +126,7 @@ class _PDFViewerScreenState extends State<PDFViewerScreen> {
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
-                'Page $_currentPage',
+                context.l10n.pageLabel(_currentPage),
                 style: const TextStyle(color: Colors.white),
               ),
             ),

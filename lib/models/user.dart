@@ -1,3 +1,4 @@
+// Data model is locale-agnostic.
 class AppUser {
   final String uid;
   final String email;

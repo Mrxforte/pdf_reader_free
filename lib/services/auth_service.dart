@@ -51,4 +51,6 @@ class AuthService {
       throw Exception(e.toString());
     }
   }
+
+  // Auth service is locale-agnostic.
 }

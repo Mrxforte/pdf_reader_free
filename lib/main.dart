@@ -6,6 +6,7 @@ import 'package:pdf_viewer_app/providers/theme_provider.dart';
 import 'package:pdf_viewer_app/providers/pdf_provider.dart';
 import 'package:pdf_viewer_app/screens/splash_screen.dart';
 import 'package:pdf_viewer_app/utils/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -30,11 +31,13 @@ class MyApp extends StatelessWidget {
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {
           return MaterialApp(
-            title: 'PDF Viewer Pro',
+            onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
             debugShowCheckedModeBanner: false,
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
             themeMode: themeProvider.themeMode,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
             home: const SplashScreen(),
           );
         },

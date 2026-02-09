@@ -1,3 +1,4 @@
+// Data model is locale-agnostic.
 class PDFFile {
   final String id;
   final String name;

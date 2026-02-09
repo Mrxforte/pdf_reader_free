@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:pdf_viewer_app/providers/auth_provider.dart';
 import 'package:pdf_viewer_app/screens/auth/login_screen.dart';
 import 'package:pdf_viewer_app/screens/home_screen.dart';
+import 'package:pdf_viewer_app/utils/helpers.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -74,7 +75,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
               ),
               SizedBox(height: 20),
               Text(
-                'PDF Viewer Pro',
+                context.l10n.appTitle,
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,

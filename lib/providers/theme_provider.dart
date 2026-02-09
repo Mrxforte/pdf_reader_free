@@ -48,3 +48,5 @@ class ThemeProvider with ChangeNotifier {
     setTheme(_themeMode);
   }
 }
+
+// Theme provider is locale-agnostic.
