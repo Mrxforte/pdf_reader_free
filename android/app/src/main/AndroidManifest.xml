@@ -10,7 +10,7 @@
     <application
         android:label="pdf_reader_free"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo"
         android:supportsRtl="true">
         <activity
             android:name=".MainActivity"

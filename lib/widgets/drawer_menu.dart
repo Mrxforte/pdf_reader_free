@@ -15,6 +15,7 @@ class DrawerMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
     final user = authProvider.user;
+    final isAuthenticated = authProvider.isAuthenticated;
 
     return Drawer(
       child: ListView(
@@ -22,14 +23,15 @@ class DrawerMenu extends StatelessWidget {
         children: [
           UserAccountsDrawerHeader(
             accountName: Text(
-              user?.displayName ?? 'User',
+              isAuthenticated ? (user?.displayName ?? 'User') : 'Guest User',
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            accountEmail: Text(user?.email ?? 'No email'),
+            accountEmail: Text(
+              isAuthenticated ? (user?.email ?? 'No email') : 'Not signed in',
+            ),
             currentAccountPicture: CircleAvatar(
-              backgroundImage: user?.photoURL != null
-                  ? NetworkImage(user!.photoURL!)
-                  : null,
+              backgroundImage:
+                  user?.photoURL != null ? NetworkImage(user!.photoURL!) : null,
               child: user?.photoURL == null
                   ? const Icon(Icons.person, size: 40)
                   : null,
@@ -38,6 +40,24 @@ class DrawerMenu extends StatelessWidget {
               color: Theme.of(context).primaryColor,
             ),
           ),
+
+          // Show Sign In option if user is not authenticated
+          if (!isAuthenticated) ...[
+            _buildDrawerItem(
+              context,
+              icon: Icons.login,
+              title: 'Sign In',
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                );
+              },
+            ),
+            const Divider(),
+          ],
+
           _buildDrawerItem(
             context,
             icon: Icons.home,
@@ -87,7 +107,8 @@ class DrawerMenu extends StatelessWidget {
               Navigator.pop(context);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const HelpSupportScreen()),
+                MaterialPageRoute(
+                    builder: (context) => const HelpSupportScreen()),
               );
             },
           ),
@@ -104,20 +125,23 @@ class DrawerMenu extends StatelessWidget {
             },
           ),
           const Divider(),
-          _buildDrawerItem(
-            context,
-            icon: Icons.logout,
-            title: context.l10n.signOut,
-            onTap: () async {
-              await authProvider.logout();
-              if (!context.mounted) return;
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginScreen()),
-                (route) => false,
-              );
-            },
-          ),
+
+          // Show Sign Out only if authenticated
+          if (isAuthenticated)
+            _buildDrawerItem(
+              context,
+              icon: Icons.logout,
+              title: context.l10n.signOut,
+              onTap: () async {
+                await authProvider.logout();
+                if (!context.mounted) return;
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                  (route) => false,
+                );
+              },
+            ),
         ],
       ),
     );

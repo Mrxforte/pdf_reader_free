@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pdf_viewer_app/providers/auth_provider.dart';
-import 'package:pdf_viewer_app/screens/auth/login_screen.dart';
+import 'package:pdf_viewer_app/screens/auth/welcome_screen.dart';
 import 'package:pdf_viewer_app/screens/home_screen.dart';
 import 'package:pdf_viewer_app/utils/helpers.dart';
 
@@ -12,7 +12,8 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -28,26 +29,30 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       curve: Curves.easeInOut,
     );
     _controller.forward();
-    
+
     _checkAuth();
   }
 
   Future<void> _checkAuth() async {
     await Future.delayed(const Duration(seconds: 2));
-    
+
     if (!mounted) return;
-    
+
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    
-    if (authProvider.firebaseUser != null) {
+
+    // Check if user is authenticated or has skipped auth
+    if (authProvider.firebaseUser != null || authProvider.hasSkippedAuth) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (BuildContext context) => const HomeScreen()),
+        MaterialPageRoute(
+            builder: (BuildContext context) => const HomeScreen()),
       );
     } else {
+      // Show welcome screen for new users
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (BuildContext context) => const LoginScreen()),
+        MaterialPageRoute(
+            builder: (BuildContext context) => const WelcomeScreen()),
       );
     }
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user.dart';
 import '../services/database_service.dart';
 
@@ -8,11 +9,16 @@ class AuthProvider with ChangeNotifier {
   AppUser? _user;
   bool _isLoading = false;
   String? _error;
+  bool _rememberMe = false;
+  bool _hasSkippedAuth = false;
 
   User? get firebaseUser => _firebaseUser;
   AppUser? get user => _user;
   bool get isLoading => _isLoading;
   String? get error => _error;
+  bool get rememberMe => _rememberMe;
+  bool get hasSkippedAuth => _hasSkippedAuth;
+  bool get isAuthenticated => _firebaseUser != null;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final DatabaseService _databaseService = DatabaseService();
@@ -22,6 +28,11 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> _init() async {
+    // Load saved preferences
+    final prefs = await SharedPreferences.getInstance();
+    _rememberMe = prefs.getBool('remember_me') ?? false;
+    _hasSkippedAuth = prefs.getBool('skipped_auth') ?? false;
+
     _auth.authStateChanges().listen((User? user) {
       _firebaseUser = user;
       if (user != null) {
@@ -61,6 +72,16 @@ class AuthProvider with ChangeNotifier {
         email: email,
         password: password,
       );
+
+      // Save remember me preference if enabled
+      if (_rememberMe) {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('remember_me', true);
+      }
+
+      // Clear skip flag on successful login
+      await _clearSkipFlag();
+
       return true;
     } on FirebaseAuthException catch (e) {
       _error = e.message;
@@ -99,6 +120,9 @@ class AuthProvider with ChangeNotifier {
         // Allow auth to succeed even if Firestore is disabled.
       }
 
+      // Clear skip flag on successful registration
+      await _clearSkipFlag();
+
       return true;
     } on FirebaseAuthException catch (e) {
       _error = e.message;
@@ -113,6 +137,11 @@ class AuthProvider with ChangeNotifier {
     try {
       await _auth.signOut();
       _user = null;
+
+      // Clear remember me on logout
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('remember_me', false);
+      _rememberMe = false;
     } catch (e) {
       debugPrint('Error logging out: $e');
     }
@@ -126,6 +155,34 @@ class AuthProvider with ChangeNotifier {
       _error = e.toString();
       notifyListeners();
     }
+  }
+
+  // Set remember me preference
+  void setRememberMe(bool value) {
+    _rememberMe = value;
+    notifyListeners();
+  }
+
+  // Skip authentication and go directly to home
+  Future<void> skipAuth() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('skipped_auth', true);
+    _hasSkippedAuth = true;
+    notifyListeners();
+  }
+
+  // Clear skip flag
+  Future<void> _clearSkipFlag() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('skipped_auth', false);
+    _hasSkippedAuth = false;
+  }
+
+  // Check if user should see auth screen
+  Future<bool> shouldShowAuth() async {
+    final prefs = await SharedPreferences.getInstance();
+    final hasSkipped = prefs.getBool('skipped_auth') ?? false;
+    return _firebaseUser == null && !hasSkipped;
   }
 }
 
