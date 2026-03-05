@@ -25,6 +25,10 @@ class FileListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final extension = file.name.split('.').last.toLowerCase();
+    final fileIcon = _getFileIcon(extension);
+    final iconColor = _getIconColor(extension);
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Slidable(
@@ -63,12 +67,12 @@ class FileListItem extends StatelessWidget {
               width: 50,
               height: 50,
               decoration: BoxDecoration(
-                color: Colors.red.withValues(alpha: 0.1),
+                color: iconColor.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const Icon(
-                Icons.picture_as_pdf,
-                color: Colors.red,
+              child: Icon(
+                fileIcon,
+                color: iconColor,
                 size: 30,
               ),
             ),
@@ -81,7 +85,20 @@ class FileListItem extends StatelessWidget {
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(Helpers.formatFileSize(file.size)),
+                Row(
+                  children: [
+                    Text(Helpers.formatFileSize(file.size)),
+                    const SizedBox(width: 8),
+                    Text(
+                      '.${extension.toUpperCase()}',
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                        color: iconColor,
+                      ),
+                    ),
+                  ],
+                ),
                 if (showDate && date != null)
                   Text(
                     '${context.l10n.openedLabel}: ${Helpers.formatDateShort(date!)}',
@@ -91,11 +108,75 @@ class FileListItem extends StatelessWidget {
             ),
             trailing: file.isFavorite
                 ? const Icon(Icons.star, color: Colors.amber)
-                : null,
+                : const Icon(Icons.chevron_right),
             onTap: onTap,
           ),
         ),
       ),
     );
+  }
+
+  IconData _getFileIcon(String extension) {
+    switch (extension) {
+      case 'pdf':
+        return Icons.picture_as_pdf;
+      case 'doc':
+      case 'docx':
+        return Icons.description;
+      case 'xls':
+      case 'xlsx':
+        return Icons.table_chart;
+      case 'ppt':
+      case 'pptx':
+        return Icons.slideshow;
+      case 'txt':
+      case 'md':
+      case 'rtf':
+        return Icons.text_snippet;
+      case 'html':
+      case 'xml':
+        return Icons.code;
+      case 'csv':
+        return Icons.grid_on;
+      case 'epub':
+      case 'mobi':
+        return Icons.book;
+      case 'zip':
+      case 'rar':
+        return Icons.folder_zip;
+      default:
+        return Icons.insert_drive_file;
+    }
+  }
+
+  Color _getIconColor(String extension) {
+    switch (extension) {
+      case 'pdf':
+        return Colors.red;
+      case 'doc':
+      case 'docx':
+        return Colors.blue;
+      case 'xls':
+      case 'xlsx':
+        return Colors.green;
+      case 'ppt':
+      case 'pptx':
+        return Colors.orange;
+      case 'txt':
+      case 'md':
+      case 'rtf':
+        return Colors.grey;
+      case 'html':
+      case 'xml':
+      case 'json':
+        return Colors.purple;
+      case 'csv':
+        return Colors.teal;
+      case 'epub':
+      case 'mobi':
+        return Colors.brown;
+      default:
+        return Colors.blueGrey;
+    }
   }
 }

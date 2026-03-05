@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pdf_viewer_app/providers/auth_provider.dart';
 import 'package:pdf_viewer_app/screens/auth/login_screen.dart';
+import 'package:pdf_viewer_app/screens/all_files_screen.dart';
+import 'package:pdf_viewer_app/screens/favorites_screen.dart';
+import 'package:pdf_viewer_app/screens/recent_screen.dart';
+import 'package:pdf_viewer_app/screens/settings_screen.dart';
 import 'package:pdf_viewer_app/screens/help_support_screen.dart';
 import 'package:pdf_viewer_app/screens/about_screen.dart';
 import 'package:pdf_viewer_app/utils/helpers.dart';
@@ -72,6 +76,12 @@ class DrawerMenu extends StatelessWidget {
             title: context.l10n.allFiles,
             onTap: () {
               Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AllFilesScreen(),
+                ),
+              );
             },
           ),
           _buildDrawerItem(
@@ -80,6 +90,12 @@ class DrawerMenu extends StatelessWidget {
             title: context.l10n.favorites,
             onTap: () {
               Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const FavoritesScreen(),
+                ),
+              );
             },
           ),
           _buildDrawerItem(
@@ -88,6 +104,12 @@ class DrawerMenu extends StatelessWidget {
             title: context.l10n.recent,
             onTap: () {
               Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const RecentScreen(),
+                ),
+              );
             },
           ),
           const Divider(),
@@ -97,6 +119,12 @@ class DrawerMenu extends StatelessWidget {
             title: context.l10n.settings,
             onTap: () {
               Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SettingsScreen(),
+                ),
+              );
             },
           ),
           _buildDrawerItem(

@@ -75,6 +75,56 @@ class PDFProvider with ChangeNotifier {
     }
   }
 
+  Future<void> pickDocument() async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: [
+          'pdf',
+          'doc',
+          'docx',
+          'xls',
+          'xlsx',
+          'ppt',
+          'pptx',
+          'txt',
+          'rtf',
+          'odt',
+          'ods',
+          'odp',
+          'csv',
+          'epub',
+          'mobi',
+          'html',
+          'xml',
+          'json',
+          'md',
+          'tex'
+        ],
+        allowMultiple: false,
+      );
+
+      if (result != null) {
+        final file = result.files.first;
+        final pdfFile = PDFFile(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          name: file.name,
+          path: file.path!,
+          size: file.size,
+          dateAdded: DateTime.now(),
+        );
+
+        await _databaseService.saveFile(pdfFile);
+        _files.add(pdfFile);
+        _updateFilteredLists();
+        notifyListeners();
+      }
+    } catch (e) {
+      _error = e.toString();
+      notifyListeners();
+    }
+  }
+
   Future<void> toggleFavorite(String fileId) async {
     final index = _files.indexWhere((file) => file.id == fileId);
     if (index != -1) {

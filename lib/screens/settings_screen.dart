@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pdf_viewer_app/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:pdf_viewer_app/providers/auth_provider.dart';
 import 'package:pdf_viewer_app/providers/theme_provider.dart';
-import 'package:pdf_viewer_app/utils/helpers.dart';
 import 'package:pdf_viewer_app/screens/auth/login_screen.dart';
 import 'package:pdf_viewer_app/screens/help_support_screen.dart';
 import 'package:pdf_viewer_app/screens/about_screen.dart';
+import 'package:pdf_viewer_app/utils/helpers.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -15,230 +14,536 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     final authProvider = Provider.of<AuthProvider>(context);
-    final l10n = AppLocalizations.of(context)!;
+    final isDark = themeProvider.themeMode == ThemeMode.dark;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.settings),
+        title: Text(context.l10n.settings),
+        elevation: 0,
       ),
       body: ListView(
+        padding: const EdgeInsets.symmetric(vertical: 8),
         children: [
           // Profile Section
-          _buildSectionHeader(l10n.profile),
-          ListTile(
-            leading: CircleAvatar(
-              backgroundImage: authProvider.user?.photoURL != null
-                  ? NetworkImage(authProvider.user!.photoURL!)
-                  : null,
-              child: authProvider.user?.photoURL == null
-                  ? const Icon(Icons.person)
-                  : null,
+          if (authProvider.isAuthenticated) ...[
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Card(
+                elevation: 2,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 35,
+                        backgroundImage: authProvider.user?.photoURL != null
+                            ? NetworkImage(authProvider.user!.photoURL!)
+                            : null,
+                        child: authProvider.user?.photoURL == null
+                            ? const Icon(Icons.person, size: 35)
+                            : null,
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              authProvider.user?.displayName ?? 'User',
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              authProvider.user?.email ?? 'No email',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey[600],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Icon(Icons.chevron_right, color: Colors.grey[400]),
+                    ],
+                  ),
+                ),
+              ),
             ),
-            title: Text(
-              authProvider.user?.displayName ?? 'User',
-              style: const TextStyle(fontWeight: FontWeight.bold),
+          ] else ...[
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Card(
+                elevation: 2,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: ListTile(
+                  contentPadding: const EdgeInsets.all(16),
+                  leading: CircleAvatar(
+                    radius: 30,
+                    backgroundColor:
+                        Theme.of(context).primaryColor.withOpacity(0.1),
+                    child: Icon(
+                      Icons.person_outline,
+                      size: 30,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                  title: const Text(
+                    'Guest User',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  subtitle: const Text('Sign in to sync your files'),
+                  trailing: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
+                      );
+                    },
+                    child: const Text('Sign In'),
+                  ),
+                ),
+              ),
             ),
-            subtitle: Text(authProvider.user?.email ?? 'No email'),
-          ),
-          const Divider(),
+          ],
 
-          // App Settings
-          _buildSectionHeader(l10n.appSettings),
-          SwitchListTile(
-            title: Text(l10n.darkMode),
-            subtitle: Text(l10n.toggleTheme),
-            value: themeProvider.themeMode == ThemeMode.dark,
-            onChanged: (value) {
-              themeProvider.setTheme(
-                value ? ThemeMode.dark : ThemeMode.light,
-              );
-            },
+          // Appearance Section
+          _buildSectionHeader(context, 'Appearance'),
+          _buildSettingsTile(
+            context,
+            icon: Icons.dark_mode_outlined,
+            title: 'Dark Mode',
+            subtitle: isDark ? 'Currently enabled' : 'Currently disabled',
+            trailing: Switch(
+              value: isDark,
+              onChanged: (value) {
+                themeProvider.setTheme(
+                  value ? ThemeMode.dark : ThemeMode.light,
+                );
+              },
+            ),
           ),
-          ListTile(
-            leading: const Icon(Icons.palette),
-            title: Text(l10n.appSettings),
-            subtitle: Text(l10n.toggleTheme),
-            onTap: () {
-              _showThemeColorDialog(context, themeProvider);
-            },
+          _buildSettingsTile(
+            context,
+            icon: Icons.palette_outlined,
+            title: 'Theme Color',
+            subtitle: 'Choose your preferred color',
+            onTap: () => _showThemeColorDialog(context),
           ),
-          ListTile(
-            leading: const Icon(Icons.language),
-            title: Text(l10n.language),
-            subtitle: const Text('English'),
-            onTap: () {
-              // Implement language selection
-            },
-          ),
-          const Divider(),
 
-          // PDF Settings
-          _buildSectionHeader(l10n.pdfSettings),
-          SwitchListTile(
-            title: Text(l10n.autoOpenLastFile),
-            subtitle: Text(l10n.autoOpenLastFile),
-            value: true,
-            onChanged: (value) {
-              // Implement auto-open setting
-            },
-          ),
-          SwitchListTile(
-            title: Text(l10n.showThumbnails),
-            subtitle: Text(l10n.showThumbnails),
-            value: true,
-            onChanged: (value) {
-              // Implement thumbnail setting
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.folder_open),
-            title: Text(l10n.defaultSaveLocation),
-            subtitle: Text(l10n.defaultSaveLocation),
-            onTap: () {
-              // Implement save location selection
-            },
-          ),
-          const Divider(),
+          const SizedBox(height: 16),
 
-          // Account Settings
-          _buildSectionHeader(l10n.account),
-          ListTile(
-            leading: const Icon(Icons.security),
-            title: Text(l10n.privacySecurity),
+          // Reading Preferences
+          _buildSectionHeader(context, 'Reading Preferences'),
+          _buildSettingsTile(
+            context,
+            icon: Icons.auto_stories_outlined,
+            title: 'Auto-open Last File',
+            subtitle: 'Resume where you left off',
+            trailing: Switch(
+              value: false,
+              onChanged: (value) {
+                // TODO: Implement
+              },
+            ),
+          ),
+          _buildSettingsTile(
+            context,
+            icon: Icons.image_outlined,
+            title: 'Show Thumbnails',
+            subtitle: 'Display file previews',
+            trailing: Switch(
+              value: true,
+              onChanged: (value) {
+                // TODO: Implement
+              },
+            ),
+          ),
+          _buildSettingsTile(
+            context,
+            icon: Icons.pageview_outlined,
+            title: 'Default Page Layout',
+            subtitle: 'Continuous scroll',
+            onTap: () => _showLayoutDialog(context),
+          ),
+
+          const SizedBox(height: 16),
+
+          // Storage & Data
+          _buildSectionHeader(context, 'Storage & Data'),
+          _buildSettingsTile(
+            context,
+            icon: Icons.folder_outlined,
+            title: 'Storage Location',
+            subtitle: 'Internal storage',
             onTap: () {
-              // Implement privacy settings
+              // TODO: Implement storage location selection
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.backup),
-            title: Text(l10n.backupSync),
-            subtitle: Text(l10n.backupSync),
+          _buildSettingsTile(
+            context,
+            icon: Icons.cloud_upload_outlined,
+            title: 'Auto-backup',
+            subtitle: 'Backup files to cloud',
+            trailing: Switch(
+              value: false,
+              onChanged: (value) {
+                // TODO: Implement
+              },
+            ),
+          ),
+          _buildSettingsTile(
+            context,
+            icon: Icons.cleaning_services_outlined,
+            title: 'Clear Cache',
+            subtitle: 'Free up storage space',
+            onTap: () => _showClearCacheDialog(context),
+          ),
+
+          const SizedBox(height: 16),
+
+          // General
+          _buildSectionHeader(context, 'General'),
+          _buildSettingsTile(
+            context,
+            icon: Icons.language_outlined,
+            title: 'Language',
+            subtitle: 'English',
             onTap: () {
-              // Implement backup settings
+              // TODO: Implement language selection
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.help),
-            title: Text(l10n.helpSupport),
+          _buildSettingsTile(
+            context,
+            icon: Icons.notifications_outlined,
+            title: 'Notifications',
+            subtitle: 'Manage app notifications',
+            trailing: Switch(
+              value: true,
+              onChanged: (value) {
+                // TODO: Implement
+              },
+            ),
+          ),
+
+          const SizedBox(height: 16),
+
+          // Support & Info
+          _buildSectionHeader(context, 'Support & Info'),
+          _buildSettingsTile(
+            context,
+            icon: Icons.help_outline,
+            title: context.l10n.helpSupport,
+            subtitle: 'Get help and support',
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const HelpSupportScreen()),
+                  builder: (context) => const HelpSupportScreen(),
+                ),
               );
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.info),
-            title: Text(l10n.about),
-            subtitle: Text(l10n.versionLabel('1.0.0')),
+          _buildSettingsTile(
+            context,
+            icon: Icons.info_outline,
+            title: context.l10n.about,
+            subtitle: 'App version and info',
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const AboutScreen()),
+                MaterialPageRoute(
+                  builder: (context) => const AboutScreen(),
+                ),
               );
             },
           ),
-          const Divider(),
+          _buildSettingsTile(
+            context,
+            icon: Icons.privacy_tip_outlined,
+            title: 'Privacy Policy',
+            subtitle: 'View privacy policy',
+            onTap: () {
+              // TODO: Show privacy policy
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Privacy policy coming soon')),
+              );
+            },
+          ),
+          _buildSettingsTile(
+            context,
+            icon: Icons.description_outlined,
+            title: 'Terms of Service',
+            subtitle: 'View terms of service',
+            onTap: () {
+              // TODO: Show terms of service
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Terms of service coming soon')),
+              );
+            },
+          ),
 
-          // Danger Zone
-          _buildSectionHeader(l10n.dangerZone),
-          ListTile(
-            leading: const Icon(Icons.delete_forever, color: Colors.red),
-            title: Text(context.l10n.clearAllData,
-                style: const TextStyle(color: Colors.red)),
-            onTap: () async {
-              final confirmed = await Helpers.showConfirmationDialog(
-                context,
-                'Clear All Data',
-                'This will delete all local PDF files. This action cannot be undone.',
-              );
-              if (confirmed && context.mounted) {
-                Helpers.showSnackBar(context, 'All data cleared');
-              }
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.logout, color: Colors.red),
-            title: Text(context.l10n.signOut,
-                style: const TextStyle(color: Colors.red)),
-            onTap: () async {
-              final confirmed = await Helpers.showConfirmationDialog(
-                context,
-                'Sign Out',
-                'Are you sure you want to sign out?',
-              );
-              if (confirmed && context.mounted) {
-                await authProvider.logout();
-                if (!context.mounted) return;
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginScreen()),
-                  (route) => false,
-                );
-              }
-            },
+          const SizedBox(height: 16),
+
+          // Account Actions
+          if (authProvider.isAuthenticated) ...[
+            _buildSectionHeader(context, 'Account'),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: ElevatedButton.icon(
+                icon: const Icon(Icons.logout),
+                label: const Text('Sign Out'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.all(16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onPressed: () async {
+                  final confirm = await showDialog<bool>(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text('Sign Out'),
+                      content: const Text('Are you sure you want to sign out?'),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, false),
+                          child: const Text('Cancel'),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, true),
+                          style:
+                              TextButton.styleFrom(foregroundColor: Colors.red),
+                          child: const Text('Sign Out'),
+                        ),
+                      ],
+                    ),
+                  );
+
+                  if (confirm == true && context.mounted) {
+                    await authProvider.logout();
+                    if (context.mounted) {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
+                        (route) => false,
+                      );
+                    }
+                  }
+                },
+              ),
+            ),
+          ],
+
+          const SizedBox(height: 32),
+
+          // App Version
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.picture_as_pdf,
+                    size: 48,
+                    color: Colors.grey[400],
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'PDF Reader',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Version 1.0.0',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey[500],
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildSectionHeader(String title) {
+  Widget _buildSectionHeader(BuildContext context, String title) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 20, 16, 8),
+      padding: const EdgeInsets.fromLTRB(32, 16, 16, 8),
       child: Text(
-        title,
-        style: const TextStyle(
-          fontSize: 14,
+        title.toUpperCase(),
+        style: TextStyle(
+          fontSize: 13,
           fontWeight: FontWeight.bold,
-          color: Colors.grey,
+          color: Theme.of(context).primaryColor,
+          letterSpacing: 0.5,
         ),
       ),
     );
   }
 
-  void _showThemeColorDialog(
-      BuildContext context, ThemeProvider themeProvider) {
-    final colors = [
-      Colors.blue,
-      Colors.red,
-      Colors.green,
-      Colors.orange,
-      Colors.purple,
-      Colors.pink,
-      Colors.teal,
-      Colors.indigo,
-    ];
+  Widget _buildSettingsTile(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    String? subtitle,
+    Widget? trailing,
+    VoidCallback? onTap,
+  }) {
+    return ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
+      leading: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Icon(
+          icon,
+          size: 24,
+          color: Theme.of(context).primaryColor,
+        ),
+      ),
+      title: Text(
+        title,
+        style: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+      subtitle: subtitle != null
+          ? Text(
+              subtitle,
+              style: TextStyle(
+                fontSize: 13,
+                color: Colors.grey[600],
+              ),
+            )
+          : null,
+      trailing: trailing ??
+          (onTap != null
+              ? Icon(Icons.chevron_right, color: Colors.grey[400])
+              : null),
+      onTap: onTap,
+    );
+  }
 
+  void _showThemeColorDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Choose Theme Color'),
-        content: SizedBox(
-          width: double.maxFinite,
-          child: GridView.builder(
-            shrinkWrap: true,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildColorOption(context, 'Blue', Colors.blue),
+            _buildColorOption(context, 'Red', Colors.red),
+            _buildColorOption(context, 'Green', Colors.green),
+            _buildColorOption(context, 'Purple', Colors.purple),
+            _buildColorOption(context, 'Orange', Colors.orange),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Close'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildColorOption(BuildContext context, String name, Color color) {
+    return ListTile(
+      leading: CircleAvatar(backgroundColor: color),
+      title: Text(name),
+      onTap: () {
+        // TODO: Implement theme color change
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Theme color feature coming soon')),
+        );
+      },
+    );
+  }
+
+  void _showLayoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Default Page Layout'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            RadioListTile<String>(
+              title: const Text('Continuous Scroll'),
+              value: 'continuous',
+              groupValue: 'continuous',
+              onChanged: (value) {
+                Navigator.pop(context);
+              },
             ),
-            itemCount: colors.length,
-            itemBuilder: (context, index) {
-              final color = colors[index];
-              return GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: CircleAvatar(
-                  backgroundColor: color,
-                  radius: 20,
-                ),
+            RadioListTile<String>(
+              title: const Text('Single Page'),
+              value: 'single',
+              groupValue: 'continuous',
+              onChanged: (value) {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showClearCacheDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Clear Cache'),
+        content: const Text(
+          'This will clear temporary files and thumbnails. Your documents will not be affected.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              // TODO: Implement cache clearing
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Cache cleared successfully')),
               );
             },
+            child: const Text('Clear'),
           ),
-        ),
+        ],
       ),
     );
   }
